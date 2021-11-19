@@ -1,0 +1,11 @@
+piVersion: v1
+appVersion: "0.0.1"
+description: "Equal Experts hello World"
+name: flask-hello-world
+version: 0.0.1
+keywords:
+- flask
+sources:
+- https://github.com/nhjiejan/flask-hello-wolrd
+maintainers:
+- name: nhjiejan

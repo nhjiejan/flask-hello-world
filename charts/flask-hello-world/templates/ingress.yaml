@@ -1,0 +1,26 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "flask_hw.fullname" . -}}
+{{- $servicePort := .Values.service.port -}}
+{{- $ingressPath := .Values.ingress.path -}}
+apiVersion: v1
+kind: Service
+metadata:
+  generateName: {{ $fullName }}-lb-
+  labels:
+    app: {{ template "flask_hw.name" . }}
+    chart: {{ template "flask_hw.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5000
+      targetPort: 5000
+  selector:
+    app: {{ template "flask_hw.name" . }}
+    release: {{ .Release.Name }}
+{{- end }}
