@@ -1,17 +1,13 @@
-VERSION ?= $(git describe --abbrev=0 --tags)
-CI_BUILD_REF ?= $(shell git rev-parse --verify HEAD)
-PROJECT_NAME = flask-hello-world
+NAME=flask-hello-world
+VERSION=$(shell git rev-parse HEAD)
+REPO=nhjiejan
 PYFILES = app
-DOCKER_ID_USER = nhjiejan
-CONTAINER_NAME = ${DOCKER_ID_USER}/${PROJECT_NAME}
+SEMVER_VERSION=$(shell cat VERSION)
 
 clean:
 	rm -rf .eggs/ build/ dist/ logs/ *.egg-info/
 	-find . -name '__pycache__' -prune -exec rm -rf "{}" \;
 	-find . -name '*.pyc' -delete
-
-install:
-	pip3 install -r requirements.txt
 
 lint:
 	flake8 ${PYFILES}
@@ -19,19 +15,32 @@ lint:
 format:
 	yapf -r -i ${PYFILES}
 
-dk-build:
-	docker build \
-		-t  ${CONTAINER_NAME}:${CI_BUILD_REF} \
-		-t  ${CONTAINER_NAME}:latest \
-		--build-arg "commit=${CI_BUILD_REF}" \
-		.
+build:
+	docker build -t $(REPO)/$(NAME):$(VERSION) .
 
-dk-run:
+tag-latest: install
+	docker tag  $(REPO)/$(NAME):$(VERSION) $(REPO)/$(NAME):latest
+	docker push $(REPO)/$(NAME):latest
+
+install: build
+	@if docker run -e DOCKER_REPO=$(REPO)/$(NAME) -e DOCKER_TAG=$(VERSION) $(REPO)/$(NAME)/tag-exists; \
+	  then echo "Tag $(VERSION) already exists!" && exit 1 ; \
+	else \
+	  docker push $(REPO)/$(NAME):$(VERSION); \
+	fi
+
+tag-semver: build
+	docker tag $(REPO)/$(NAME):$(VERSION) $(REPO)/$(NAME):$(SEMVER_VERSION)
+	@if docker run -e DOCKER_REPO=babylonhealth/$(NAME) -e DOCKER_TAG=$(VERSION) $(REPO)/$(NAME)/tag-exists; \
+	  then echo "Tag $(VERSION) already exists!" && exit 1 ; \
+	else \
+	  docker push $(REPO)/$(NAME):$(VERSION); \
+	fi
+
+run:
 	docker run \
+		--name $(NAME) \
 		-p 5000:5000 \
-		-v $$(pwd):/opt/flask-hello-world/${PROJECT_NAME} \
+		-v $$(pwd):/opt/${NAME} \
 		-d \
-		${CONTAINER_NAME}:latest
-
-dk-publish: dk-build
-	docker push ${CONTAINER_NAME}:${CI_BUILD_REF}
+		$(REPO)/$(NAME):$(VERSION)

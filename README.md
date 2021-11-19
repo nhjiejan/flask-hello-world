@@ -6,6 +6,3 @@ In this repo
 - Helm charts for the app
 - See docs in (`deploy`)[./deploy/README.md] directory for more
 
-### TODOs
-
-- example w/ data store, secret env vars or files

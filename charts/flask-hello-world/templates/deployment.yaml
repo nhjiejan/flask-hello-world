@@ -1,22 +1,22 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "flask_hw.fullname" . }}
+  name: {{ template "fullname" . }}
   labels:
-    app: {{ template "flask_hw.name" . }}
-    chart: {{ template "flask_hw.chart" . }}
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "flask_hw.name" . }}
+      app: {{ template "name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "flask_hw.name" . }}
+        app: {{ template "name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:

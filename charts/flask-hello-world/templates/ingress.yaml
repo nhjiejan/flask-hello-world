@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "flask_hw.fullname" . -}}
+{{- $fullName := include "fullname" . -}}
 {{- $servicePort := .Values.service.port -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: v1
@@ -7,8 +7,8 @@ kind: Service
 metadata:
   generateName: {{ $fullName }}-lb-
   labels:
-    app: {{ template "flask_hw.name" . }}
-    chart: {{ template "flask_hw.chart" . }}
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}
@@ -21,6 +21,6 @@ spec:
     - port: 5000
       targetPort: 5000
   selector:
-    app: {{ template "flask_hw.name" . }}
+    app: {{ template "name" . }}
     release: {{ .Release.Name }}
 {{- end }}

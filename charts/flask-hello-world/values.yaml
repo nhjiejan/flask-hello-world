@@ -3,11 +3,9 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 3
-
-# https://hub.docker.com/r/mdzhang/flask-hello-world/tags
 image:
   repository: nhjiejan/flask-hello-world
-  tag: latest # TODO
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
