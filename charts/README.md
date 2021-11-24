@@ -32,6 +32,8 @@ cd flask-hello-world/charts
 helm install flask-hw flask-hello-world
 ```
 
+You will then be able to access your loadbalanced application on your local network, navigate to your browser and search `http://127.0.0.1:5000`
+
 ### Clean up
 ```
 helm delete flask-hw --purge

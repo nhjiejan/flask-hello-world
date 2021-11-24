@@ -17,6 +17,8 @@ The Makfile in this repo provides all the necessary targets to build the image f
 ### Run docker container
 ```make run```
 
+This will allow you to run the docker image on your local machine. The service is made available on `http://127.0.0.1:5000`
+
 ### Publish image to docker repository
 ```make publish```
 
