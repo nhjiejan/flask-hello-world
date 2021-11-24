@@ -12,7 +12,7 @@ def read_requirements(fn):
 setup(
     name='flask-hello-world',
     use_scm_version=True,
-    author="Nabil Andaloussi",
+    author="Anon",
     url="https://github.com/nhjiejan/flask-hello-world",
     license="MIT",
     packages=find_packages(),

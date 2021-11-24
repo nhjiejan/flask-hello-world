@@ -17,10 +17,22 @@
 
 
 
-## Steps
-```
-minikube tunnel # tunnels network trafic between k8s cluster and local host
+## Deployment
 
+Update the chart values with any nesesary changes, you wil need to use the minikube tunneling functionality in order to demonstrate a real external loadbalancer. It is important to run the minikube tunnel function in another terminal and before you deploy the helm chart.
+
+### Tunnel network trafic between k8s cluster and local host
+```
+minikube tunnel 
+```
+
+### Deploy helm chart
+```
 cd flask-hello-world/charts
 helm install flask-hw flask-hello-world
+```
+
+### cleanup
+```
+helm delete flask-hw --purge
 ```

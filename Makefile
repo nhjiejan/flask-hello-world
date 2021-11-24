@@ -18,11 +18,11 @@ format:
 build:
 	docker build -t $(REPO)/$(NAME):$(VERSION) .
 
-tag-latest: install
+tag-latest: publish
 	docker tag  $(REPO)/$(NAME):$(VERSION) $(REPO)/$(NAME):latest
 	docker push $(REPO)/$(NAME):latest
 
-install: build
+publish: build
 	@if docker run -e DOCKER_REPO=$(REPO)/$(NAME) -e DOCKER_TAG=$(VERSION) $(REPO)/$(NAME)/tag-exists; \
 	  then echo "Tag $(VERSION) already exists!" && exit 1 ; \
 	else \
