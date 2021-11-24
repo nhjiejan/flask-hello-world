@@ -9,15 +9,15 @@ This repository contains the source code and helm chart for a load balanced pyth
 
 
 ## Development
-The Mafile in this repo provides all the necessary targets to build the image from source, package in a docker image and run the image locally. Update the `REPO` variable in the Makefile to reflect your own dockerhub account
+The Makfile in this repo provides all the necessary targets to build the image from source, package in a docker image and run the image locally. Update the `REPO` variable in the Makefile to reflect your own dockerhub account
 
-### build docker image
+### Build docker image
 ```make build```
 
 ### Run docker container
 ```make run```
 
-### Pblish image to docker repository
+### Publish image to docker repository
 ```make publish```
 
 
